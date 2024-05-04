@@ -14,10 +14,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> {
     private List<ItemList> itemLists;
@@ -39,36 +45,67 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> {
     public void onBindViewHolder(@NonNull Adapter.MyViewHolder holder, int position) {
     ItemList item = itemLists.get(position);
     holder.textContent.setText(item.getContent());
-    holder.radio1.setChecked(false);
-    holder.radio2.setChecked(false);
-    holder.radio3.setChecked(false);
-    if (item.getStatus().equals("Tốt")) {
-        holder.radio1.setChecked(true);
-    } else if (item.getStatus().equals("Tạm ổn")) {
-        holder.radio2.setChecked(true);
-    } else if (item.getStatus().equals("Không Tốt")) {
-        holder.radio3.setChecked(true);
+    holder.radioDone.setChecked(false);
+    holder.radioUnDone.setChecked(false);
+    if (item.getStatus().equals("Đã Thực Hiện Được")) {
+        holder.radioDone.setChecked(true);
+    } else if (item.getStatus().equals("Chưa Thực Hiện Được")) {
+        holder.radioUnDone.setChecked(true);
     }
-
+        Locale vietnam = new Locale("vi", "VN");
+        SimpleDateFormat day = new SimpleDateFormat("ddMMyyyy", vietnam);
+        String day1 = day.format(new Date());
     DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
     String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
     String key = item.getKey();
 
-    holder.radio1.setOnClickListener(v -> {
-//        item.setStatus("Tốt");
-        dbRef.child(uid).child("mission").child(key).child("status").setValue("Tốt");
-//        notifyDataSetChanged();
+    holder.radioDone.setOnClickListener(v -> {
+        if (item.getStatus().equals("Chưa Thực Hiện Được")) {
+            dbRef.child(uid).child("mission").child(day1).child(key).child("status").setValue("Đã Thực Hiện Được");
+            //lấy giá trị dbRef.child(uid).child("mission").child(day1).child("done")
+            dbRef.child(uid).child("mission").child(day1).child("done").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    Integer done = dataSnapshot.getValue(Integer.class);
+                    if (done == null) {
+                        done = 0;
+                    }
+                    done++;
+                    dbRef.child(uid).child("mission").child(day1).child("done").setValue(done);
+                    // Now you can use the "done" value
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    // Handle possible errors.
+                }
+            });
+        }
     });
-    holder.radio2.setOnClickListener(v -> {
-//        item.setStatus("Tạm ổn");
-        dbRef.child(uid).child("mission").child(key).child("status").setValue("Tạm ổn");
-//        notifyDataSetChanged();
+    holder.radioUnDone.setOnClickListener(v -> {
+        if(item.getStatus().equals("Đã Thực Hiện Được")){
+            dbRef.child(uid).child("mission").child(day1).child(key).child("status").setValue("Chưa Thực Hiện Được");
+
+            dbRef.child(uid).child("mission").child(day1).child("done").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    Integer done = dataSnapshot.getValue(Integer.class);
+                    if (done == null) {
+                        done = 0;
+                    }
+                    done--;
+                    dbRef.child(uid).child("mission").child(day1).child("done").setValue(done);
+                    // Now you can use the "done" value
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    // Handle possible errors.
+                }
+            });
+        }
     });
-    holder.radio3.setOnClickListener(v -> {
-//        item.setStatus("Không Tốt");
-        dbRef.child(uid).child("mission").child(key).child("status").setValue("Không Tốt");
-//        notifyDataSetChanged();
-    });
+
 }
 
     public void updateList(List<ItemList> list){
@@ -82,13 +119,12 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> {
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
         private TextView textContent;
-        private RadioButton radio1, radio2, radio3;
+        private RadioButton radioDone, radioUnDone;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             textContent = itemView.findViewById(R.id.textContent);
-            radio1 = itemView.findViewById(R.id.radio1);
-            radio2 = itemView.findViewById(R.id.radio2);
-            radio3 = itemView.findViewById(R.id.radio3);
+            radioDone = itemView.findViewById(R.id.radioDone);
+            radioUnDone = itemView.findViewById(R.id.radioUnDone);
         }
     }
 }

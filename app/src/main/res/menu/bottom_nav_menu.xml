@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navHome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:alphabeticModifiers="META"
+        android:background="#00FFFFFF"
+        android:icon="@drawable/happy"
+        android:iconTintMode="add"
+        android:title="Trang Chủ"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/navTaget"
+        android:title=""
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <item
+        android:id="@+id/navMXH"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/happy"
+        android:icon="@android:drawable/ic_dialog_email"
+        android:title="Cộng Đồng" />
+
+</menu>

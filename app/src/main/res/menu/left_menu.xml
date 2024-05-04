@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn = "navigation_view">
+    <group
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_header_home"
+            android:icon="@drawable/happy"
+            android:title="Home"/>
+
+        <item
+            android:id="@+id/nav_header_settings"
+            android:icon="@drawable/happy"
+            android:title="Settings"/>
+
+        <item
+            android:id="@+id/nav_header_share"
+            android:icon="@drawable/happy"
+            android:title="Share"/>
+
+        <item
+            android:id="@+id/nav_header_feedback"
+            android:icon="@drawable/happy"
+            android:title="Phản Hồi"/>
+    </group>
+    <item
+        android:title="">
+
+        <menu>
+            <item
+                android:id="@+id/nav_header_logout"
+                android:icon="@drawable/happy"
+                android:title="Logout"/>
+        </menu>
+
+    </item>
+</menu>

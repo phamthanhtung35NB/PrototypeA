@@ -1,5 +1,6 @@
 package com.example.prototypea;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
@@ -19,7 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends AppCompatActivity {
-    private EditText phoneEditText;
+    private EditText emailEditText;
     private EditText passwordEditText;
     private Button registerButton;
 
@@ -28,9 +29,18 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
-        phoneEditText = findViewById(R.id.phoneEditText);
+        emailEditText = findViewById(R.id.emailEditText);
         passwordEditText = findViewById(R.id.passwordEditText);
         registerButton = findViewById(R.id.registerButton);
+        SharedPreferences sharedPreferences = getSharedPreferences("dataLogin", MODE_PRIVATE);
+        String email = sharedPreferences.getString("email", "");
+        String password = sharedPreferences.getString("password", "");
+        emailEditText.setText(email);
+        passwordEditText.setText(password);
+        // Set up the login button to call loginUser(
+        if (!email.equals("") || !password.equals("")) {
+            loginUser();
+        }
         findViewById(R.id.loginButton).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -54,16 +64,23 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void loginUser() {
-        String phone = phoneEditText.getText().toString();
+        String email = emailEditText.getText().toString();
         String password = passwordEditText.getText().toString();
 
-        FirebaseAuth.getInstance().signInWithEmailAndPassword(phone, password)
+        FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(LoginActivity.this, task -> {
                     if (task.isSuccessful()) {
                         // Sign in success, update UI with the signed-in user's information
                         Toast.makeText(LoginActivity.this, "Authentication successful.",
                                 Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        final String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                        SharedPreferences sharedPreferences = getSharedPreferences("dataLogin", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("uid", uid);
+                        editor.putString("email", email);
+                        editor.putString("password", password);
+                        editor.apply();
                         startActivity(intent);
                         finish();
                     } else {
