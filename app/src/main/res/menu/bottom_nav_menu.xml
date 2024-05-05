@@ -8,7 +8,7 @@
         android:layout_height="wrap_content"
         android:alphabeticModifiers="META"
         android:background="#00FFFFFF"
-        android:icon="@drawable/happy"
+        android:icon="@android:drawable/ic_menu_myplaces"
         android:iconTintMode="add"
         android:title="Trang Chủ"
         app:showAsAction="never" />

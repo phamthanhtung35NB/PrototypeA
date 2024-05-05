@@ -74,7 +74,7 @@
                 android:layout_gravity="center|bottom"
                 android:layout_marginBottom="20dp"
                 android:backgroundTint="?attr/colorSecondary"
-                android:src="@drawable/ic_baseline_add_24"
+                android:src="@android:drawable/ic_menu_today"
                 app:layout_anchor="@+id/bottomNavigationView"
                 app:layout_anchorGravity="center"
                 app:maxImageSize="40dp"
