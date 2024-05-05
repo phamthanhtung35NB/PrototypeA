@@ -3,17 +3,17 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/navHome"
+        android:id="@+id/navTaget"
+        android:title="Mục Tiêu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:icon="@android:drawable/ic_menu_more"
         android:alphabeticModifiers="META"
         android:background="#00FFFFFF"
-        android:icon="@android:drawable/ic_menu_myplaces"
         android:iconTintMode="add"
-        android:title="Trang Chủ"
         app:showAsAction="never" />
     <item
-        android:id="@+id/navTaget"
+        android:id="@+id/navHome"
         android:title=""
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />

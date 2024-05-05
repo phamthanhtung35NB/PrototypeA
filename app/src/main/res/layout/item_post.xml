@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <RelativeLayout
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/layout"
+            android:layout_width="270dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="50dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_item_radius_not_tl"
+            android:gravity="center"
+            android:orientation="vertical"
+            tools:layout_editor_absoluteX="1dp"
+            tools:layout_editor_absoluteY="1dp">
+
+
+            <LinearLayout
+                android:layout_width="240dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingStart="5dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="5dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:background="@drawable/aklogo" />
+
+                <LinearLayout
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/txtName"
+                        android:layout_width="130dp"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="10dp"
+                        android:text="Name"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/txtTime"
+                            android:layout_width="46dp"
+                            android:layout_height="wrap_content"
+                            android:layout_padding="10dp"
+                            android:paddingStart="5dp"
+                            android:paddingEnd="5dp"
+                            android:text="23:00"
+                            android:textSize="15sp"
+                            android:textStyle="italic" />
+
+                        <TextView
+                            android:id="@+id/txtDate"
+                            android:layout_width="84dp"
+                            android:layout_height="wrap_content"
+                            android:paddingStart="5dp"
+                            android:paddingEnd="5dp"
+                            android:text="06/05/2024"
+                            android:textStyle="italic" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/txtStatus"
+                android:layout_width="230dp"
+                android:layout_height="wrap_content"
+                android:layout_padding="10dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:text="Đã Hoàn thành 100% mục tiêu"
+                android:textSize="15sp"
+                android:textStyle="normal" />
+
+            <TextView
+                android:id="@+id/txtStatus2"
+                android:layout_width="230dp"
+                android:layout_height="wrap_content"
+                android:layout_padding="10dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:text="40/40 mục tiêu hoàn thành"
+                android:textSize="15sp"
+                android:textStyle="normal" />
+
+            <TextView
+                android:id="@+id/txtContent"
+                android:layout_width="230dp"
+                android:layout_height="wrap_content"
+                android:layout_padding="10dp"
+                android:gravity="center"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:text="Đang cảm thấy rất vui"
+                android:textSize="15sp"
+                android:textStyle="normal" />
+
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/pieChart"
+                android:layout_width="230dp"
+                android:layout_height="230dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp" />
+
+            <Button
+                android:id="@+id/btnLike"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableLeft="@drawable/baseline_heart_broken_24"
+                android:pointerIcon="all_scroll"
+                android:text="Thích" />
+
+        </LinearLayout>
+
+
+
+
+        <LinearLayout
+            android:id="@+id/myLayout"
+            android:layout_width="270dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="350dp"
+            android:background="@drawable/bg_item_radius_not_tr"
+            android:gravity="center"
+            android:orientation="vertical"
+            tools:layout_editor_absoluteX="1dp"
+            tools:layout_editor_absoluteY="1dp">
+
+
+            <LinearLayout
+                android:layout_width="240dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingStart="5dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="5dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/myImageView"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:background="@drawable/aklogo" />
+
+                <LinearLayout
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/myTxtName"
+                        android:layout_width="130dp"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="10dp"
+                        android:text="Name"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/myTxtTime"
+                            android:layout_width="46dp"
+                            android:layout_height="wrap_content"
+                            android:layout_padding="10dp"
+                            android:paddingStart="5dp"
+                            android:paddingEnd="5dp"
+                            android:text="23:00"
+                            android:textSize="15sp"
+                            android:textStyle="italic" />
+
+                        <TextView
+                            android:id="@+id/myTxtDate"
+                            android:layout_width="84dp"
+                            android:layout_height="wrap_content"
+                            android:paddingStart="5dp"
+                            android:paddingEnd="5dp"
+                            android:text="06/05/2024"
+                            android:textStyle="italic" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/myTxtStatus"
+                android:layout_width="230dp"
+                android:layout_height="wrap_content"
+                android:layout_padding="10dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:text="Đã Hoàn thành 100% mục tiêu"
+                android:textSize="15sp"
+                android:textStyle="normal" />
+
+            <TextView
+                android:id="@+id/myTxtStatus2"
+                android:layout_width="230dp"
+                android:layout_height="wrap_content"
+                android:layout_padding="10dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:text="40/40 mục tiêu hoàn thành"
+                android:textSize="15sp"
+                android:textStyle="normal" />
+
+            <TextView
+                android:id="@+id/myTxtContent"
+                android:layout_width="230dp"
+                android:layout_height="wrap_content"
+                android:layout_padding="10dp"
+                android:gravity="center"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:text="Đang cảm thấy rất vui"
+                android:textSize="15sp"
+                android:textStyle="normal" />
+
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/myPieChart"
+                android:layout_width="230dp"
+                android:layout_height="230dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp" />
+
+            <Button
+                android:id="@+id/myBtnLike"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableLeft="@drawable/baseline_heart_broken_24"
+                android:pointerIcon="all_scroll"
+                android:text="Thích" />
+
+        </LinearLayout>
+    </RelativeLayout>
+
+</LinearLayout>

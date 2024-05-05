@@ -1,4 +1,4 @@
-package com.example.prototypea;
+package com.example.prototypea.Class;
 
 public class User {
     public String fullName;
