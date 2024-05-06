@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.prototypea.Adapter.AdapterTaget;
 import com.example.prototypea.Class.ItemList;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -37,9 +38,9 @@ import java.util.Locale;
 
 public class TagetFragment extends Fragment {
     static private List<ItemList> itemList = new ArrayList<>();
-    private FirebaseAuth mAuth;
-    Adapter adapter;
+    AdapterTaget adapter;
     RecyclerView listItemRecyclerView;
+    Button btnAdd;
     // Tạo một Dialog mới
     Dialog dialog;
     String uid;
@@ -50,46 +51,48 @@ public class TagetFragment extends Fragment {
         return view;
     }
 
-        void init(View view) {
-    //set adapter
-    adapter = new Adapter(itemList, getActivity());
-    listItemRecyclerView = view.findViewById(R.id.listItemRecyclerView);
-    listItemRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-    listItemRecyclerView.setAdapter(adapter);
-
-    DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
-    SharedPreferences sharedPreferences = getActivity().getSharedPreferences("dataLogin", getActivity().MODE_PRIVATE);
-    uid = sharedPreferences.getString("uid", "");
-
-            Locale vietnam = new Locale("vi", "VN");
-            SimpleDateFormat day = new SimpleDateFormat("ddMMyyyy", vietnam);
-            String day1 = day.format(new Date());
-            dbRef.child(uid).child("mission").child(day1).addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    itemList.clear();
-                    int sum = 0;
-                    for (DataSnapshot itemSnapshot: dataSnapshot.getChildren()) {
-                        if (!itemSnapshot.getKey().equals("sum") && !itemSnapshot.getKey().equals("done")) {
-                            String key = itemSnapshot.getKey();
-                            String content = itemSnapshot.child("content").getValue(String.class);
-                            String status = itemSnapshot.child("status").getValue(String.class);
-                            if (status != null && status.equals("Đã Thực Hiện Được")) {
-                            }
-                            itemList.add(new ItemList(content, status, key));
-                            sum++;
-                        }
-                    }
-                    dbRef.child(uid).child("mission").child(day1).child("sum").setValue(sum);
-                    adapter.updateList(itemList);
+    void init(View view) {
+        //set adapter
+        adapter = new AdapterTaget(itemList, getActivity());
+        btnAdd = view.findViewById(R.id.btnAdd);
+        listItemRecyclerView = view.findViewById(R.id.listItemRecyclerView);
+        listItemRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         listItemRecyclerView.setAdapter(adapter);
-                }
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                    // Handle possible errors.
-                }
-            });
+        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("dataLogin", getActivity().MODE_PRIVATE);
+        uid = sharedPreferences.getString("uid", "");
+
+                Locale vietnam = new Locale("vi", "VN");
+                SimpleDateFormat day = new SimpleDateFormat("ddMMyyyy", vietnam);
+                String day1 = day.format(new Date());
+                dbRef.child(uid).child("mission").child(day1).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        itemList.clear();
+                        int sum = 0;
+                        for (DataSnapshot itemSnapshot: dataSnapshot.getChildren()) {
+                            if (!itemSnapshot.getKey().equals("sum") && !itemSnapshot.getKey().equals("done")) {
+                                String key = itemSnapshot.getKey();
+                                String content = itemSnapshot.child("content").getValue(String.class);
+                                String status = itemSnapshot.child("status").getValue(String.class);
+                                System.out.printf("key: %s, content: %s, status: %s" , key, content, status);
+                                if (status != null && status.equals("Đã Thực Hiện Được")) {
+                                }
+                                itemList.add(new ItemList(content, status, key));
+                                sum++;
+                            }
+                        }
+                        dbRef.child(uid).child("mission").child(day1).child("sum").setValue(sum);
+                        adapter.updateList(itemList);
+                        listItemRecyclerView.setAdapter(adapter);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        // Handle possible errors.
+                    }
+                });
 //    dbRef.child(uid).child("mission").child(day1).addValueEventListener(new ValueEventListener() {
 //    @Override
 //    public void onDataChange(DataSnapshot dataSnapshot) {
@@ -125,7 +128,12 @@ public class TagetFragment extends Fragment {
 }
 
     private void addEvents(View view) {
-        view.findViewById(R.id.button).setOnClickListener(v -> showDialog());
+       btnAdd.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+                showDialog();
+           }
+       });
     }
 
     private void showDialog() {

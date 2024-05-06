@@ -1,41 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <RelativeLayout
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <LinearLayout
             android:id="@+id/layout"
-            android:layout_width="270dp"
+            android:layout_width="220dp"
             android:layout_marginStart="20dp"
-            android:layout_marginEnd="50dp"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_item_radius_not_tl"
             android:gravity="center"
-            android:orientation="vertical"
-            tools:layout_editor_absoluteX="1dp"
-            tools:layout_editor_absoluteY="1dp">
+            android:orientation="vertical">
 
 
             <LinearLayout
-                android:layout_width="240dp"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:paddingStart="5dp"
-                android:paddingTop="10dp"
+                android:layout_marginTop="5dp"
                 android:paddingEnd="5dp">
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/imageView"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:id="@+id/imageViewAvatar"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:background="@drawable/aklogo" />
 
                 <LinearLayout
@@ -49,7 +44,7 @@
                         android:layout_height="wrap_content"
                         android:paddingStart="10dp"
                         android:text="Name"
-                        android:textSize="20sp"
+                        android:textSize="15sp"
                         android:textStyle="bold" />
 
                     <LinearLayout
@@ -59,22 +54,22 @@
 
                         <TextView
                             android:id="@+id/txtTime"
-                            android:layout_width="46dp"
+                            android:layout_width="55dp"
                             android:layout_height="wrap_content"
-                            android:layout_padding="10dp"
                             android:paddingStart="5dp"
-                            android:paddingEnd="5dp"
-                            android:text="23:00"
-                            android:textSize="15sp"
+                            android:paddingEnd="2dp"
+                            android:text="23:00:00"
+                            android:textSize="12sp"
                             android:textStyle="italic" />
 
                         <TextView
                             android:id="@+id/txtDate"
-                            android:layout_width="84dp"
+                            android:layout_width="74dp"
                             android:layout_height="wrap_content"
                             android:paddingStart="5dp"
                             android:paddingEnd="5dp"
                             android:text="06/05/2024"
+                            android:textSize="12sp"
                             android:textStyle="italic" />
                     </LinearLayout>
 
@@ -84,85 +79,83 @@
 
             <TextView
                 android:id="@+id/txtStatus"
-                android:layout_width="230dp"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:layout_padding="10dp"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
+                android:gravity="center"
                 android:text="Đã Hoàn thành 100% mục tiêu"
-                android:textSize="15sp"
+                android:textSize="13sp"
                 android:textStyle="normal" />
 
             <TextView
                 android:id="@+id/txtStatus2"
-                android:layout_width="230dp"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:layout_padding="10dp"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
+                android:gravity="center"
                 android:text="40/40 mục tiêu hoàn thành"
-                android:textSize="15sp"
+                android:textSize="13sp"
                 android:textStyle="normal" />
 
             <TextView
                 android:id="@+id/txtContent"
-                android:layout_width="230dp"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:layout_padding="10dp"
                 android:gravity="center"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
                 android:text="Đang cảm thấy rất vui"
                 android:textSize="15sp"
                 android:textStyle="normal" />
 
             <com.github.mikephil.charting.charts.PieChart
                 android:id="@+id/pieChart"
-                android:layout_width="230dp"
-                android:layout_height="230dp"
+                android:layout_width="190dp"
+                android:layout_height="190dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp" />
 
-            <Button
-                android:id="@+id/btnLike"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:drawableLeft="@drawable/baseline_heart_broken_24"
-                android:pointerIcon="all_scroll"
-                android:text="Thích" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/btnLike"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:drawableLeft="@drawable/baseline_heart_broken_24"
+                    android:scaleType="centerInside" />
+
+                <TextView
+                    android:id="@+id/textViewLike"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="TextView" />
+
+
+            </LinearLayout>
+
 
         </LinearLayout>
 
 
-
-
         <LinearLayout
             android:id="@+id/myLayout"
-            android:layout_width="270dp"
+            android:layout_width="220dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            android:layout_marginStart="350dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="27dp"
             android:background="@drawable/bg_item_radius_not_tr"
             android:gravity="center"
-            android:orientation="vertical"
-            tools:layout_editor_absoluteX="1dp"
-            tools:layout_editor_absoluteY="1dp">
+            android:orientation="vertical">
 
 
             <LinearLayout
-                android:layout_width="240dp"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingStart="5dp"
-                android:paddingTop="10dp"
+                android:gravity="center|right"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="5dp"
                 android:paddingEnd="5dp">
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/myImageView"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:background="@drawable/aklogo" />
 
                 <LinearLayout
                     android:layout_width="130dp"
@@ -175,88 +168,109 @@
                         android:layout_height="wrap_content"
                         android:paddingStart="10dp"
                         android:text="Name"
-                        android:textSize="20sp"
+                        android:gravity="center|right"
+                        android:paddingEnd="5dp"
+                        android:textSize="15sp"
                         android:textStyle="bold" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:gravity="center|right"
                         android:orientation="horizontal">
 
                         <TextView
                             android:id="@+id/myTxtTime"
-                            android:layout_width="46dp"
+                            android:layout_width="60dp"
                             android:layout_height="wrap_content"
-                            android:layout_padding="10dp"
-                            android:paddingStart="5dp"
+                            android:paddingStart="2dp"
                             android:paddingEnd="5dp"
-                            android:text="23:00"
-                            android:textSize="15sp"
+                            android:gravity="center|right"
+                            android:text="23:00:00"
+                            android:textSize="12sp"
                             android:textStyle="italic" />
 
                         <TextView
                             android:id="@+id/myTxtDate"
-                            android:layout_width="84dp"
+                            android:layout_width="74dp"
                             android:layout_height="wrap_content"
+                            android:gravity="center|right"
                             android:paddingStart="5dp"
                             android:paddingEnd="5dp"
                             android:text="06/05/2024"
+                            android:textSize="12sp"
                             android:textStyle="italic" />
                     </LinearLayout>
 
                 </LinearLayout>
 
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/myImageViewAvatar"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/aklogo" />
+
             </LinearLayout>
 
             <TextView
                 android:id="@+id/myTxtStatus"
-                android:layout_width="230dp"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:layout_padding="10dp"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
+                android:gravity="center"
                 android:text="Đã Hoàn thành 100% mục tiêu"
-                android:textSize="15sp"
+                android:textSize="13sp"
                 android:textStyle="normal" />
 
             <TextView
                 android:id="@+id/myTxtStatus2"
-                android:layout_width="230dp"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:layout_padding="10dp"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
+                android:gravity="center"
                 android:text="40/40 mục tiêu hoàn thành"
-                android:textSize="15sp"
+                android:textSize="13sp"
                 android:textStyle="normal" />
 
             <TextView
                 android:id="@+id/myTxtContent"
-                android:layout_width="230dp"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:layout_padding="10dp"
                 android:gravity="center"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
                 android:text="Đang cảm thấy rất vui"
                 android:textSize="15sp"
                 android:textStyle="normal" />
 
             <com.github.mikephil.charting.charts.PieChart
                 android:id="@+id/myPieChart"
-                android:layout_width="230dp"
-                android:layout_height="230dp"
+                android:layout_width="190dp"
+                android:layout_height="190dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/myBtnLike"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:drawableLeft="@drawable/baseline_heart_broken_24"
-                android:pointerIcon="all_scroll"
-                android:text="Thích" />
+                <ImageView
+                    android:id="@+id/myBtnLike"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:drawableLeft="@drawable/baseline_heart_broken_24"
+                    android:scaleType="centerInside" />
+
+                <TextView
+                    android:id="@+id/myTextViewLike"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="TextView" />
+
+                <Button
+                    android:id="@+id/button1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Button" />
+            </LinearLayout>
+
 
         </LinearLayout>
     </RelativeLayout>

@@ -57,7 +57,7 @@ public class RegisterActivity extends AppCompatActivity {
             String uid = mAuth.getCurrentUser().getUid();
             // Write user info to Realtime Database
             DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
-            User user = new User(fullName, birthYear, email);
+            User user = new User(fullName, birthYear, email,"");
             dbRef.child(uid).setValue(user); // Use phone number as key
 
             Toast.makeText(RegisterActivity.this, "Registration successful", Toast.LENGTH_SHORT).show();

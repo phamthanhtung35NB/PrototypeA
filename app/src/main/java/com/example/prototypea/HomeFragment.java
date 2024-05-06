@@ -9,8 +9,10 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.prototypea.Class.Post;
 import com.example.prototypea.R;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
@@ -33,12 +35,17 @@ import java.util.Date;
 import java.util.Locale;
 
 public class HomeFragment extends Fragment{
-    String  uid, day1;
+    String  uid, day1, email, fullName,image;
+    float donePercent;
+    float undonePercent;
+
     DatabaseReference dbRef;
     int sum = 0;
     int done = 0;
     PieChart pieChart;
+    Button btnShare;
     ArrayList<PieEntry> visitors = new ArrayList<>();
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         init(view);
@@ -47,17 +54,48 @@ public class HomeFragment extends Fragment{
     }
 
     private void addEvents(View view) {
+        btnShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Locale vietnam = new Locale("vi", "VN");
+                SimpleDateFormat day = new SimpleDateFormat("ddMMyyyy", vietnam);
+                SimpleDateFormat time = new SimpleDateFormat("HHmmss", vietnam);
+                SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyyHHmmss", vietnam);
+
+                String dayFormat = day.format(new Date());
+                String timeFormat = time.format(new Date());
+                String currentDateTimeString = sdf.format(new Date());
+
+                String status = "Đã Hoàn thành "+ donePercent+"% mục tiêu";
+                String content = "Đã hoàn thành "+ donePercent+"% mục tiêu";
+
+                // Tạo một đối tượng Post
+                Post post = new Post(currentDateTimeString, fullName, uid, status, content, image, dayFormat, timeFormat, 0, done, sum);
+
+                // Lấy một tham chiếu đến cơ sở dữ liệu
+                DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
+
+                // Đẩy đối tượng Post lên Firebase
+                dbRef.child("post").child(currentDateTimeString).setValue(post);
+
+            }
+            });
     }
 
     private void init(View view){
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("dataLogin", getActivity().MODE_PRIVATE);
         uid = sharedPreferences.getString("uid", "");
+        email = sharedPreferences.getString("email", "");
+        fullName = sharedPreferences.getString("fullName", "");
+        image = sharedPreferences.getString("image", "");
         Locale vietnam = new Locale("vi", "VN");
         SimpleDateFormat day = new SimpleDateFormat("ddMMyyyy", vietnam);
         day1 = day.format(new Date());
         dbRef = FirebaseDatabase.getInstance().getReference();
 
         pieChart = view.findViewById(R.id.pieChart);
+        btnShare = view.findViewById(R.id.btnShare);
 
 
         getDatabaseTagetDay();
@@ -84,9 +122,9 @@ public class HomeFragment extends Fragment{
                 System.out.println("done: " + done);
                 System.out.println("sum: " + sum);
                 //tính % done
-                float donePercent = (float) ((float)done / (float)sum)*100;
+                donePercent = (float) ((float)done / (float)sum)*100;
                 //tính % undone
-                float undonePercent = 100 - donePercent;
+                undonePercent = 100 - donePercent;
                 System.out.println("donePercent: " + donePercent);
                 System.out.println("undonePercent: " + undonePercent);
                 visitors.add(new PieEntry(  donePercent, "Đã Thực Hiện Được"));

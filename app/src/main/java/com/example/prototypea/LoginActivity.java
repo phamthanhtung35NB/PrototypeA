@@ -18,12 +18,18 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText emailEditText;
     private EditText passwordEditText;
     private Button registerButton;
-
+    // Get a reference to the database
+    DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,13 +80,40 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(LoginActivity.this, "Authentication successful.",
                                 Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                        final String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                        SharedPreferences sharedPreferences = getSharedPreferences("dataLogin", MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putString("uid", uid);
-                        editor.putString("email", email);
-                        editor.putString("password", password);
-                        editor.apply();
+
+                        // Lắng nghe sự kiện thay đổi dữ liệu
+                        dbRef.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                for (DataSnapshot userSnapshot: dataSnapshot.getChildren()) {
+                                    // Lấy uid
+                                    String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+                                    // Lấy thông tin người dùng
+                                    String birthYear = userSnapshot.child("birthYear").getValue(String.class);
+                                    String fullName = userSnapshot.child("fullName").getValue(String.class);
+                                    String image = userSnapshot.child("image").getValue(String.class);
+
+
+                                    SharedPreferences sharedPreferences = getSharedPreferences("dataLogin", MODE_PRIVATE);
+                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    editor.putString("uid", uid);
+                                    editor.putString("email", email);
+                                    editor.putString("password", password);
+                                    editor.putString("birthYear", birthYear);
+                                    editor.putString("fullName", fullName);
+                                    editor.putString("image", image);
+                                    editor.apply();
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+                                // Xử lý lỗi
+                                System.out.println("Failed to read value: " + databaseError.toException());
+                            }
+                        });
+
                         startActivity(intent);
                         finish();
                     } else {

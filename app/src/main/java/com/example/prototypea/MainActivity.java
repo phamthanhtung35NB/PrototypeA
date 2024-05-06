@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.prototypea.Adapter.AdapterTaget;
 import com.example.prototypea.Class.ItemList;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -39,7 +40,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class MainActivity extends AppCompatActivity {
     static private List<ItemList> itemList = new ArrayList<>();
     private FirebaseAuth mAuth;
-    Adapter adapter;
+    AdapterTaget adapter;
     RecyclerView listItemRecyclerView;
     // Tạo một Dialog mới
     Dialog dialog;
@@ -127,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "navMessage", Toast.LENGTH_SHORT).show();
                 }
                 else if (itemId == R.id.navMXH){
-                    Toast.makeText(MainActivity.this, "navQR", Toast.LENGTH_SHORT).show();
+                    replaceFragment(new SocialNetworkFragment(), false);
 
                 }
                 return true;

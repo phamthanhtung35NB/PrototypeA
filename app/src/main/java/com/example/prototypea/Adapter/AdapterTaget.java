@@ -1,4 +1,4 @@
-package com.example.prototypea;
+package com.example.prototypea.Adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.prototypea.Class.ItemList;
+import com.example.prototypea.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -23,11 +24,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> {
+public class AdapterTaget extends RecyclerView.Adapter<AdapterTaget.MyViewHolder> {
     private List<ItemList> itemLists;
     private final Context context;
 
-    public Adapter(List<ItemList> messagesList, Context context) {
+    public AdapterTaget(List<ItemList> messagesList, Context context) {
         this.itemLists = messagesList;
         this.context = context;
         System.out.println("MessagesAdapter.MessagesAdapter");
@@ -35,12 +36,12 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> {
 
     @NonNull
     @Override
-    public Adapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public AdapterTaget.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new MyViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_tasks, null));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull Adapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull AdapterTaget.MyViewHolder holder, int position) {
     ItemList item = itemLists.get(position);
     holder.textContent.setText(item.getContent());
     holder.radioDone.setChecked(false);
