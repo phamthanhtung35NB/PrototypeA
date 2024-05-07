@@ -1,15 +1,19 @@
 package com.example.prototypea;
 
+import static android.content.ContentValues.TAG;
+
 import android.app.Dialog;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,18 +26,24 @@ import android.widget.Toast;
 
 import com.example.prototypea.Adapter.AdapterTaget;
 import com.example.prototypea.Class.ItemList;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 
 public class TagetFragment extends Fragment {
@@ -63,9 +73,13 @@ public class TagetFragment extends Fragment {
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("dataLogin", getActivity().MODE_PRIVATE);
         uid = sharedPreferences.getString("uid", "");
 
-                Locale vietnam = new Locale("vi", "VN");
-                SimpleDateFormat day = new SimpleDateFormat("ddMMyyyy", vietnam);
-                String day1 = day.format(new Date());
+        Locale vietnam = new Locale("vi", "VN");
+        SimpleDateFormat day = new SimpleDateFormat("ddMMyyyy", vietnam);
+        String day1 = day.format(new Date());
+
+
+
+
                 dbRef.child(uid).child("mission").child(day1).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -84,6 +98,8 @@ public class TagetFragment extends Fragment {
                             }
                         }
                         dbRef.child(uid).child("mission").child(day1).child("sum").setValue(sum);
+
+                        updateDataSum(uid, day1, sum);
                         adapter.updateList(itemList);
                         listItemRecyclerView.setAdapter(adapter);
                     }
@@ -185,10 +201,29 @@ public class TagetFragment extends Fragment {
 
         DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
 //kiểm tra xem có dbRef.child(uid).child("mission").child(day1).child("sum").setValue(sum); chưa
-        if (dbRef.child(uid).child("mission").child(day1).child("done") == null) {
-            dbRef.child(uid).child("mission").child(day1).child("done").setValue(0);
-        }
+
         ItemList item = new ItemList(task, "Chưa Thực Hiện Được", currentDateTimeString);
         dbRef.child(uid).child("mission").child(day1).child(currentDateTimeString).setValue(item);
+    }
+    public static void updateDataSum(String accountId, String day, long newSum) {
+        FirebaseFirestore db3 = FirebaseFirestore.getInstance();
+        DocumentReference docRef = db3.collection(accountId).document(day);
+
+        Map<String, Object> updates = new HashMap<>();
+        updates.put("sum", newSum);
+
+        docRef.update(updates)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully updated!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error updating document", e);
+                    }
+                });
     }
 }

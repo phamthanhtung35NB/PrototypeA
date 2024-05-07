@@ -1,28 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
-
+    <item
+        android:id="@+id/navHome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:alphabeticModifiers="META"
+        android:background="#00FFFFFF"
+        android:title="Trang Chủ"
+        android:icon="@drawable/img" />
     <item
         android:id="@+id/navTaget"
         android:title="Mục Tiêu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:icon="@android:drawable/ic_menu_more"
+        android:icon="@drawable/taget"
         android:alphabeticModifiers="META"
         android:background="#00FFFFFF"
         android:iconTintMode="add"
         app:showAsAction="never" />
-    <item
-        android:id="@+id/navHome"
-        android:title=""
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+
     <item
         android:id="@+id/navMXH"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/happy"
-        android:icon="@android:drawable/ic_dialog_email"
+        android:icon="@drawable/queue"
         android:title="Cộng Đồng" />
 
 </menu>

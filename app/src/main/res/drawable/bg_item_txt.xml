@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <corners android:topLeftRadius="0dp" android:topRightRadius="0dp"
+        android:bottomLeftRadius="0dp" android:bottomRightRadius="0dp"/> <!-- Bán kính bo góc -->
+    <stroke android:color="@color/brown" android:width="1dp"/>
+    <!-- Viền màu xanh với độ rộng là 2dp -->
+    <padding android:left="2dp" android:top="2dp"
+        android:right="2dp" android:bottom="2dp"/>
+</shape>

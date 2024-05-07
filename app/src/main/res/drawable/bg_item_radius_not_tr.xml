@@ -6,7 +6,8 @@
     <!-- Viền màu xanh với độ rộng là 2dp -->
     <padding android:left="20dp" android:top="10dp"
         android:right="15dp" android:bottom="10dp"/>
-    <!-- bo viền cho item -->
+<!--    backgroud-->
+    <solid android:color="#000000"/>
 
 
 </shape>

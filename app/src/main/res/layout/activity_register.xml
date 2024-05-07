@@ -6,42 +6,104 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".RegisterActivity">
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    <pl.droidsonroids.gif.GifImageView
+        android:layout_width="584dp"
+        android:layout_height="989dp"
+        android:src="@drawable/bg"
+        tools:layout_editor_absoluteX="-96dp"
+        tools:layout_editor_absoluteY="-86dp" />
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:gravity="center|top"
+    android:orientation="vertical"
+    tools:layout_editor_absoluteX="16dp"
+    tools:layout_editor_absoluteY="16dp">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/imageLogoAvatar"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="20dp"
+        android:background="#00000000"
+        android:src="@drawable/logov" />
 
     <EditText
         android:id="@+id/registerPhoneEditText"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="email" />
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_height="38dp"
+        android:background="@drawable/textview_border"
+        android:hint="Email"
+        android:imeActionLabel="@string/action_sign_in_short"
+        android:imeOptions="actionDone"
+        android:inputType="textEmailAddress"
+        android:selectAllOnFocus="true"  />
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="30dp" />
     <EditText
         android:id="@+id/registerPasswordEditText"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Password"
-        android:inputType="textPassword" />
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_height="38dp"
+        android:hint="Mật khẩu"
+        android:imeActionLabel="@string/action_sign_in_short"
+        android:background="@drawable/textview_border"
+        android:imeOptions="actionDone"
+        android:inputType="textPassword"
+        android:selectAllOnFocus="true" />
 
     <EditText
         android:id="@+id/confirmPasswordEditText"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Confirm password"
-        android:inputType="textPassword" />
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_height="38dp"
+        android:hint="Nhập lại mật khẩu"
+        android:imeActionLabel="@string/action_sign_in_short"
+        android:background="@drawable/textview_border"
+        android:imeOptions="actionDone"
+        android:inputType="textPassword"
+        android:selectAllOnFocus="true" />
 
     <EditText
         android:id="@+id/fullNameEditText"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Full name" />
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_height="38dp"
+        android:background="@drawable/textview_border"
+        android:hint="Họ và tên"
+        android:selectAllOnFocus="true" />
 
     <EditText
         android:id="@+id/birthYearEditText"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Birth year" />
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_height="38dp"
+        android:hint="Sinh nhật"
+        android:imeActionLabel="@string/action_sign_in_short"
+        android:imeOptions="actionDone"
+        android:background="@drawable/textview_border"
+        android:inputType="text|textPhonetic"
+        android:selectAllOnFocus="true" />
 
     <Button
         android:id="@+id/registerButton"

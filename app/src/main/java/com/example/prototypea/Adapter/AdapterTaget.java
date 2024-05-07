@@ -1,6 +1,9 @@
 package com.example.prototypea.Adapter;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,17 +15,25 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.prototypea.Class.ItemList;
 import com.example.prototypea.R;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AdapterTaget extends RecyclerView.Adapter<AdapterTaget.MyViewHolder> {
     private List<ItemList> itemLists;
@@ -44,6 +55,7 @@ public class AdapterTaget extends RecyclerView.Adapter<AdapterTaget.MyViewHolder
     public void onBindViewHolder(@NonNull AdapterTaget.MyViewHolder holder, int position) {
     ItemList item = itemLists.get(position);
     holder.textContent.setText(item.getContent());
+    holder.imageButton.setImageResource(R.drawable.logov);
     holder.radioDone.setChecked(false);
     holder.radioUnDone.setChecked(false);
     if (item.getStatus().equals("Đã Thực Hiện Được")) {
@@ -71,6 +83,7 @@ public class AdapterTaget extends RecyclerView.Adapter<AdapterTaget.MyViewHolder
                     }
                     done++;
                     dbRef.child(uid).child("mission").child(day1).child("done").setValue(done);
+                    updateData(uid, day1, done);
                     // Now you can use the "done" value
                 }
 
@@ -79,6 +92,8 @@ public class AdapterTaget extends RecyclerView.Adapter<AdapterTaget.MyViewHolder
                     // Handle possible errors.
                 }
             });
+            //ứuả trên firestore
+
         }
     });
     holder.radioUnDone.setOnClickListener(v -> {
@@ -94,6 +109,7 @@ public class AdapterTaget extends RecyclerView.Adapter<AdapterTaget.MyViewHolder
                     }
                     done--;
                     dbRef.child(uid).child("mission").child(day1).child("done").setValue(done);
+                    updateData(uid, day1, done);
                     // Now you can use the "done" value
                 }
 
@@ -106,7 +122,49 @@ public class AdapterTaget extends RecyclerView.Adapter<AdapterTaget.MyViewHolder
     });
 
 }
+    public static void updateData(String accountId, String day, long newDone) {
+        FirebaseFirestore db3 = FirebaseFirestore.getInstance();
+        DocumentReference docRef = db3.collection(accountId).document(day);
 
+        Map<String, Object> updates = new HashMap<>();
+        updates.put("done", newDone);
+
+        docRef.update(updates)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully updated!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error updating document", e);
+                    }
+                });
+    }
+public static void updateData(String accountId, String day, long newDone, long newSum) {
+    FirebaseFirestore db3 = FirebaseFirestore.getInstance();
+    DocumentReference docRef = db3.collection(accountId).document(day);
+
+    Map<String, Object> updates = new HashMap<>();
+    updates.put("done", newDone);
+    updates.put("sum", newSum);
+
+    docRef.update(updates)
+        .addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d(TAG, "DocumentSnapshot successfully updated!");
+            }
+        })
+        .addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.w(TAG, "Error updating document", e);
+            }
+        });
+}
     public void updateList(List<ItemList> list){
         this.itemLists=list;
         notifyDataSetChanged();
@@ -119,11 +177,13 @@ public class AdapterTaget extends RecyclerView.Adapter<AdapterTaget.MyViewHolder
 
         private TextView textContent;
         private RadioButton radioDone, radioUnDone;
+        private CircleImageView imageButton;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             textContent = itemView.findViewById(R.id.textContent);
             radioDone = itemView.findViewById(R.id.radioDone);
             radioUnDone = itemView.findViewById(R.id.radioUnDone);
+            imageButton = itemView.findViewById(R.id.imageButton);
         }
     }
 }

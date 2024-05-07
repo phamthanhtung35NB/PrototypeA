@@ -44,7 +44,9 @@
                         android:layout_height="wrap_content"
                         android:paddingStart="10dp"
                         android:text="Name"
-                        android:textSize="15sp"
+                        android:textColor="@android:color/white"
+                        android:autoSizeMinTextSize="10dp"
+                        android:autoSizeMaxTextSize="2sp"
                         android:textStyle="bold" />
 
                     <LinearLayout
@@ -59,6 +61,7 @@
                             android:paddingStart="5dp"
                             android:paddingEnd="2dp"
                             android:text="23:00:00"
+                            android:textColor="@android:color/white"
                             android:textSize="12sp"
                             android:textStyle="italic" />
 
@@ -69,6 +72,7 @@
                             android:paddingStart="5dp"
                             android:paddingEnd="5dp"
                             android:text="06/05/2024"
+                            android:textColor="@android:color/white"
                             android:textSize="12sp"
                             android:textStyle="italic" />
                     </LinearLayout>
@@ -81,8 +85,11 @@
                 android:id="@+id/txtStatus"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_item_txt"
                 android:gravity="center"
                 android:text="Đã Hoàn thành 100% mục tiêu"
+                android:textColor="@android:color/white"
                 android:textSize="13sp"
                 android:textStyle="normal" />
 
@@ -90,8 +97,10 @@
                 android:id="@+id/txtStatus2"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
+                android:background="@drawable/bg_item_txt"
                 android:gravity="center"
                 android:text="40/40 mục tiêu hoàn thành"
+                android:textColor="@android:color/white"
                 android:textSize="13sp"
                 android:textStyle="normal" />
 
@@ -99,9 +108,11 @@
                 android:id="@+id/txtContent"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
+                android:background="@drawable/bg_item_txt"
                 android:gravity="center"
                 android:text="Đang cảm thấy rất vui"
-                android:textSize="15sp"
+                android:textColor="@android:color/white"
+                android:textSize="13sp"
                 android:textStyle="normal" />
 
             <com.github.mikephil.charting.charts.PieChart
@@ -114,23 +125,14 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:gravity="center"
                 android:orientation="horizontal">
-
-                <ImageView
+                <Button
                     android:id="@+id/btnLike"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:drawableLeft="@drawable/baseline_heart_broken_24"
-                    android:scaleType="centerInside" />
-
-                <TextView
-                    android:id="@+id/textViewLike"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="TextView" />
-
-
+                    android:drawableLeft="@drawable/baseline_heart_broken_24"
+                    android:text="0" />
             </LinearLayout>
 
 
@@ -166,10 +168,13 @@
                         android:id="@+id/myTxtName"
                         android:layout_width="130dp"
                         android:layout_height="wrap_content"
-                        android:paddingStart="10dp"
-                        android:text="Name"
+                        android:autoSizeMaxTextSize="2sp"
+                        android:autoSizeMinTextSize="10dp"
                         android:gravity="center|right"
+                        android:paddingStart="10dp"
                         android:paddingEnd="5dp"
+                        android:text="Name"
+                        android:textColor="@color/white"
                         android:textSize="15sp"
                         android:textStyle="bold" />
 
@@ -183,10 +188,11 @@
                             android:id="@+id/myTxtTime"
                             android:layout_width="60dp"
                             android:layout_height="wrap_content"
+                            android:gravity="center|right"
                             android:paddingStart="2dp"
                             android:paddingEnd="5dp"
-                            android:gravity="center|right"
                             android:text="23:00:00"
+                            android:textColor="@color/white"
                             android:textSize="12sp"
                             android:textStyle="italic" />
 
@@ -198,6 +204,7 @@
                             android:paddingStart="5dp"
                             android:paddingEnd="5dp"
                             android:text="06/05/2024"
+                            android:textColor="@color/white"
                             android:textSize="12sp"
                             android:textStyle="italic" />
                     </LinearLayout>
@@ -217,7 +224,10 @@
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_item_txt"
                 android:text="Đã Hoàn thành 100% mục tiêu"
+                android:textColor="@color/white"
                 android:textSize="13sp"
                 android:textStyle="normal" />
 
@@ -226,7 +236,9 @@
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:background="@drawable/bg_item_txt"
                 android:text="40/40 mục tiêu hoàn thành"
+                android:textColor="@color/white"
                 android:textSize="13sp"
                 android:textStyle="normal" />
 
@@ -235,7 +247,9 @@
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:background="@drawable/bg_item_txt"
                 android:text="Đang cảm thấy rất vui"
+                android:textColor="@color/white"
                 android:textSize="15sp"
                 android:textStyle="normal" />
 
@@ -248,27 +262,14 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:gravity="center"
                 android:orientation="horizontal">
-
-                <ImageView
-                    android:id="@+id/myBtnLike"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:drawableLeft="@drawable/baseline_heart_broken_24"
-                    android:scaleType="centerInside" />
-
-                <TextView
-                    android:id="@+id/myTextViewLike"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="TextView" />
-
                 <Button
-                    android:id="@+id/button1"
+                    android:id="@+id/myBtnLike"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Button" />
+                    android:drawableLeft="@drawable/baseline_heart_broken_24"
+                    android:text="0" />
             </LinearLayout>
 
 

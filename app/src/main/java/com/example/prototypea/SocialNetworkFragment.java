@@ -2,6 +2,7 @@ package com.example.prototypea;
 
 import android.app.Dialog;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -11,12 +12,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.prototypea.Adapter.AdapterPost;
 import com.example.prototypea.Adapter.AdapterTaget;
 import com.example.prototypea.Class.ItemList;
 import com.example.prototypea.Class.Post;
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.ValueFormatter;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -33,6 +41,7 @@ public class SocialNetworkFragment extends Fragment {
     static private List<Post> postList = new ArrayList<>();
     AdapterPost adapterPost = new AdapterPost(postList, getActivity());
     RecyclerView postsRecyclerView;
+    ImageButton imageButtonExit;
     public static String uid;
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_social_network, container, false);
@@ -43,6 +52,7 @@ public class SocialNetworkFragment extends Fragment {
     }
 
     private void init(View view){
+        imageButtonExit = view.findViewById(R.id.imageButtonExit);
         postsRecyclerView = view.findViewById(R.id.postsRecyclerView);
         postsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         postsRecyclerView.setAdapter(adapterPost) ;
@@ -54,6 +64,10 @@ public class SocialNetworkFragment extends Fragment {
 
     }
     private void addEvents(View view){
+        imageButtonExit.setOnClickListener(v -> {
+//            quay về màn hình chính
+            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
+        });
     }
     private void getPosts(){
         // Lấy một tham chiếu đến cơ sở dữ liệu
@@ -98,5 +112,6 @@ public class SocialNetworkFragment extends Fragment {
             }
         });
     }
+
 
 }

@@ -1,8 +1,13 @@
 package com.example.prototypea;
 
 import android.app.Dialog;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -24,13 +29,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.example.prototypea.Adapter.AdapterTaget;
 import com.example.prototypea.Class.ItemList;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
@@ -44,7 +53,6 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView listItemRecyclerView;
     // Tạo một Dialog mới
     Dialog dialog;
-    FloatingActionButton fab;
     DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private BottomNavigationView bottomNavigationView;
@@ -53,8 +61,10 @@ public class MainActivity extends AppCompatActivity {
     CircleImageView imageLogoAvatar;
     TextView textUsername;
     TextView textEmail;
-    String profilePic = "";
+    String imageLogo = "";
     String accountId = "";
+    String email = "";
+    String username = "";
     private static final int PICK_IMAGE_REQUEST = 1;
 
     @Override
@@ -72,7 +82,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
     void init(Bundle savedInstanceState) {
-        fab = findViewById(R.id.fab);
         //cái ảnh nút quét mã QR
 //        fab.setImageResource(R.drawable.qrcode);
         drawerLayout = findViewById(R.id.main);
@@ -99,20 +108,23 @@ public class MainActivity extends AppCompatActivity {
         imageLogoAvatar = headerView.findViewById(R.id.imageLogoAvatar);
         textUsername = headerView.findViewById(R.id.textUsername);
         textEmail = headerView.findViewById(R.id.textEmail);
-//        SharedPreferences sharedPreferences = getSharedPreferences("dataLogin", MODE_PRIVATE);
-//        String username = sharedPreferences.getString("username", "");
-//        String email = sharedPreferences.getString("email", "");
-//        accountId = sharedPreferences.getString("uid", "");
-//        profilePic= sharedPreferences.getString("profilePic", "");
-//        textUsername.setText(username);
-//        textEmail.setText(email);
-        if (!profilePic.isEmpty()&&profilePic!=null&&profilePic.length()>0){
-            Picasso.get().load(profilePic).into(imageLogoAvatar);
+        SharedPreferences sharedPreferences = getSharedPreferences("dataLogin", MODE_PRIVATE);
+        email = sharedPreferences.getString("email", "");
+        username = sharedPreferences.getString("fullName", "");
+        accountId = sharedPreferences.getString("uid", "");
+        imageLogo= sharedPreferences.getString("image", "");
+        textUsername.setText(username);
+        textEmail.setText(email);
+        if (!imageLogo.isEmpty()&&imageLogo!=null&&imageLogo.length()>0){
+            Picasso.get().load(imageLogo).into(imageLogoAvatar);
+        }else {
+            imageLogoAvatar.setImageResource(R.drawable.aklogo);
         }
 
 
         replaceFragment(new HomeFragment(), true);
         Toast.makeText(MainActivity.this, "Welcome", Toast.LENGTH_SHORT).show();
+        replaceFragment(new HomeFragment(), false);
     }
     void addEvents(){
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -154,10 +166,10 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "Logout", Toast.LENGTH_SHORT).show();
 
                 //xóa dữ liệu đăng nhập
-//                SharedPreferences sharedPreferences = getSharedPreferences("dataLogin", MODE_PRIVATE);
-//                SharedPreferences.Editor editor = sharedPreferences.edit();
-//                editor.clear();
-//                editor.apply();
+                SharedPreferences sharedPreferences = getSharedPreferences("dataLogin", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.clear();
+                editor.apply();
                 //chuyển màn hình login
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(intent);
@@ -165,13 +177,7 @@ public class MainActivity extends AppCompatActivity {
             }
             return true;
         });
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                replaceFragment(new HomeFragment(), false);
 
-            }
-        });
         imageLogoAvatar.setOnClickListener(view -> {
             Intent intent = new Intent();
             intent.setType("image/*");
@@ -179,7 +185,31 @@ public class MainActivity extends AppCompatActivity {
             startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
         });
     }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            Uri uri = data.getData();
+            try {
+                // Update your ImageView.
+                if (uri != null) {
+                    //upload image to firebase storage
+                    imageLogoAvatar.setImageURI(uri);
+                    //get bitmap from uri
+                    Bitmap bitmap = UploadImageToFirebase.getBitmapFromUri(uri, this);
 
+                    UploadImageToFirebase.uploadImageLogoClientAvataFirebase(bitmap, "logo_", accountId);
+
+                } else {
+//                imageLogoAvatar.setImageURI(uri);
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
 
     void replaceFragment(Fragment fragment, boolean isAppInit){
         FragmentManager fragmentManager = getSupportFragmentManager();

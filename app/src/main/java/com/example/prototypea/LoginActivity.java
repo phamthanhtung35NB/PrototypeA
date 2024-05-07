@@ -1,5 +1,8 @@
 package com.example.prototypea;
 
+import static android.content.ContentValues.TAG;
+import static com.example.prototypea.SocialNetworkFragment.uid;
+
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -10,6 +13,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,12 +21,22 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.prototypea.Class.ItemList;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentReference;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText emailEditText;
@@ -76,23 +90,55 @@ public class LoginActivity extends AppCompatActivity {
         FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(LoginActivity.this, task -> {
                     if (task.isSuccessful()) {
+
+                        //khểm tra xem có // thêm thông tin người dùng vào firestore collection là restaurant dựa vào uid
+
+
                         // Sign in success, update UI with the signed-in user's information
                         Toast.makeText(LoginActivity.this, "Authentication successful.",
                                 Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+// Lấy uid
+                        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                        GetData.readAndSaveSumWeek(uid);
+                        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
+                        Locale vietnam = new Locale("vi", "VN");
+                        SimpleDateFormat day = new SimpleDateFormat("ddMMyyyy", vietnam);
+                        String day1 = day.format(new Date());
 
-                        // Lắng nghe sự kiện thay đổi dữ liệu
-                        dbRef.addValueEventListener(new ValueEventListener() {
+                        DatabaseReference dbRef1 = FirebaseDatabase.getInstance().getReference();
+                        DatabaseReference ref = dbRef1.child(uid).child("mission").child(day1);
+                        ref.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
-                                for (DataSnapshot userSnapshot: dataSnapshot.getChildren()) {
-                                    // Lấy uid
-                                    String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                                System.out.println("đang kiểm tra mục tiêu mặc định");
+                                if(dataSnapshot.hasChild("sum")) {
+                                    // child "sum" exists
+                                    System.out.println("đa có mục tiêu mặc định");
+                                    System.out.println("sum: " + dataSnapshot.child("sum").getValue());
+                                } else {
+                                    // child "sum" does not exist
+                                    System.out.println("chưa có mục tiêu mặc định");
+                                    defaultTaget(uid);
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+                                // Handle possible errors.
+                            }
+                        });
+
+                        // Lắng nghe sự kiện thay đổi dữ liệu
+                        dbRef.child(uid).addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+
 
                                     // Lấy thông tin người dùng
-                                    String birthYear = userSnapshot.child("birthYear").getValue(String.class);
-                                    String fullName = userSnapshot.child("fullName").getValue(String.class);
-                                    String image = userSnapshot.child("image").getValue(String.class);
+                                    String birthYear = dataSnapshot.child("birthYear").getValue(String.class);
+                                    String fullName = dataSnapshot.child("fullName").getValue(String.class);
+                                    String image = dataSnapshot.child("image").getValue(String.class);
 
 
                                     SharedPreferences sharedPreferences = getSharedPreferences("dataLogin", MODE_PRIVATE);
@@ -103,8 +149,8 @@ public class LoginActivity extends AppCompatActivity {
                                     editor.putString("birthYear", birthYear);
                                     editor.putString("fullName", fullName);
                                     editor.putString("image", image);
+                                    System.out.println("dataLogin: " + uid + email + password + birthYear + fullName + image);
                                     editor.apply();
-                                }
                             }
 
                             @Override
@@ -123,4 +169,24 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
     }
+    void defaultTaget(String uid) {
+    Locale vietnam = new Locale("vi", "VN");
+    SimpleDateFormat day = new SimpleDateFormat("ddMMyyyy", vietnam);
+    String day1 = day.format(new Date());
+    System.out.println(day1);
+    System.out.println("đang tạo mục tiêu mặc định");
+    //tạo arr mục tiêu mặc định
+    String[] arr = {"Ăn sáng đầy đủ", "Uống đủ nước", "Ngủ đủ giấc", "Tập thể dục thường xuyên", "Ăn uống lành mạnh",
+    "Hạn chế ăn vặt", "Dành thời gian cho bản thân", "Kết nối với người thân", "Học hỏi những điều mới", "Giúp đỡ người khác"};
+        ArrayList<ItemList> list = new ArrayList<>();
+    for (int i = 0; i < 10; i++) {
+        SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyyHHmmss", vietnam);
+        String currentDateTimeString = sdf.format(new Date()) + i; // Add the counter to the end of the string
+        ItemList item = new ItemList(arr[i], "Chưa Thực Hiện Được", currentDateTimeString);
+        list.add(item);
+        System.out.println("item: " + item.getContent() + item.getStatus() + item.getKey());
+    }
+
+    dbRef.child(uid).child("mission").child(day1).setValue(list);
+}
 }

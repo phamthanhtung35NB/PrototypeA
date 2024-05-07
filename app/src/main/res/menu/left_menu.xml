@@ -7,17 +7,18 @@
 
         <item
             android:id="@+id/nav_header_home"
-            android:icon="@drawable/happy"
+            android:icon="@drawable/img"
+
             android:title="Home"/>
 
         <item
             android:id="@+id/nav_header_settings"
-            android:icon="@drawable/happy"
+            android:icon="@drawable/img_1"
             android:title="Settings"/>
 
         <item
             android:id="@+id/nav_header_share"
-            android:icon="@drawable/happy"
+            android:icon="@drawable/baseline_contactless_24"
             android:title="Share"/>
 
         <item
@@ -31,7 +32,7 @@
         <menu>
             <item
                 android:id="@+id/nav_header_logout"
-                android:icon="@drawable/happy"
+                android:icon="@drawable/img_2"
                 android:title="Logout"/>
         </menu>
 
