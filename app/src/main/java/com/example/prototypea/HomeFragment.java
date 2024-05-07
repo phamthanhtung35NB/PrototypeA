@@ -165,7 +165,7 @@ public class HomeFragment extends Fragment{
         txtStatusDialog.setText(status);
         String status2 = done + "/" + sum+ " mục tiêu hoàn thành" ;
         txtStatusDialog2.setText(status2);
-//        showPieChart(pieChartDialog, done, sum);
+        showPieChart(pieChartDialog, done, sum);
 
         btnClose.setOnClickListener(v -> {
             System.out.println("Đóng dialog");
