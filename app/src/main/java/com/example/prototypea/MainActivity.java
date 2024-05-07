@@ -5,12 +5,20 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,8 +46,12 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import com.google.zxing.qrcode.QRCodeWriter;
 import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
@@ -151,16 +163,26 @@ public class MainActivity extends AppCompatActivity {
             int itemId = item.getItemId();
             if (itemId == R.id.nav_header_home) {
                 Toast.makeText(MainActivity.this, "Home", Toast.LENGTH_SHORT).show();
+                replaceFragment(new HomeFragment(), false);
+                //đóng thanh bên
+                drawerLayout.closeDrawers();
+
             } else if (itemId == R.id.nav_header_settings) {
                 Toast.makeText(MainActivity.this, "Settings", Toast.LENGTH_SHORT).show();
 
             } else if (itemId == R.id.nav_header_share) {
+                drawerLayout.closeDrawers();
+                try {
+                    showDialogShare();
+                } catch (WriterException e) {
+                    throw new RuntimeException(e);
+                }
                 Toast.makeText(MainActivity.this, "Share", Toast.LENGTH_SHORT).show();
 
             } else if (itemId == R.id.nav_header_feedback) {
                 Toast.makeText(MainActivity.this, "Feedback", Toast.LENGTH_SHORT).show();
                 //mở link liên kết github
-                Intent intent = new Intent(Intent.ACTION_VIEW, android.net.Uri.parse("https://github.com/phamthanhtung35NB/Restaurant-manager"));
+                Intent intent = new Intent(Intent.ACTION_VIEW, android.net.Uri.parse("https://forms.gle/P54BqEtKNddo1R4t7"));
                 startActivity(intent);
             } else if(itemId == R.id.nav_header_logout){
                 Toast.makeText(MainActivity.this, "Logout", Toast.LENGTH_SHORT).show();
@@ -184,6 +206,44 @@ public class MainActivity extends AppCompatActivity {
             intent.setAction(Intent.ACTION_GET_CONTENT);
             startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
         });
+    }
+    private void showDialogShare() throws WriterException {
+            final Dialog dialog = new Dialog(this);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setContentView(R.layout.dialog_center_share_app);
+            Window window = dialog.getWindow();
+            if (window == null) {
+                return;
+            }
+            window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+            window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            WindowManager.LayoutParams windowAttributes = window.getAttributes();
+            windowAttributes.gravity = Gravity.CENTER;
+            window.setAttributes(windowAttributes);
+            if (Gravity.BOTTOM == Gravity.BOTTOM) {
+                dialog.setCancelable(true);
+            } else {
+                dialog.setCancelable(false);
+            }
+            ImageView imageViewQRCode = dialog.findViewById(R.id.imageViewQRCode);
+            Button btnClose = dialog.findViewById(R.id.btnClose);
+            btnClose.setOnClickListener(v -> {
+                System.out.println("Đóng dialog");
+                dialog.dismiss();
+            });
+            String urlQR = "https://drive.google.com/drive/folders/1mXo4n1_jrPhb-uWdk1Lry0-4tI5rYdQy?usp=sharing";
+            QRCodeWriter writer = new QRCodeWriter();
+            final int width = 400;
+            final int height = 400;
+            BitMatrix matrix = writer.encode(urlQR, BarcodeFormat.QR_CODE, width, height);
+            Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+            for (int i = 0; i < width; i++) {
+                for (int j = 0; j < height; j++) {
+                    bitmap.setPixel(i, j, matrix.get(i, j) ? Color.BLACK : Color.WHITE);
+                }
+            }
+            imageViewQRCode.setImageBitmap(bitmap);
+            dialog.show();
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
