@@ -58,9 +58,9 @@ public class LoginActivity extends AppCompatActivity {
         emailEditText.setText(email);
         passwordEditText.setText(password);
         // Set up the login button to call loginUser(
-        if (!email.equals("") || !password.equals("")) {
-            loginUser();
-        }
+//        if (!email.equals("") || !password.equals("")) {
+//            loginUser();
+//        }
         findViewById(R.id.loginButton).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
