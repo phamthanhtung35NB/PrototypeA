@@ -231,7 +231,7 @@ public class MainActivity extends AppCompatActivity {
                 System.out.println("Đóng dialog");
                 dialog.dismiss();
             });
-            String urlQR = "https://drive.google.com/drive/folders/1mXo4n1_jrPhb-uWdk1Lry0-4tI5rYdQy?usp=sharing";
+            String urlQR = "https://3msrg1-my.sharepoint.com/:f:/g/personal/tungpham010203_3msrg1_onmicrosoft_com/EpMpdXSrr5VAuj9GPBnodn0BOl23Xddhz1ZbcKGOXq4sPw?e=bDiUSu";
             QRCodeWriter writer = new QRCodeWriter();
             final int width = 400;
             final int height = 400;
